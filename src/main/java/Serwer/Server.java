@@ -27,7 +27,7 @@ public class Server {
                 Socket socket = serverSocket.accept();
                 System.out.println("New client connected");
                 clientCount++;
-                new MultiThread(socket).start();
+                new GameHandler(socket).start();
 
 
             }
