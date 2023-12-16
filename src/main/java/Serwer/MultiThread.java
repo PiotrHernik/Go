@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.Buffer;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class MultiThread extends Thread{
@@ -21,18 +22,15 @@ public class MultiThread extends Thread{
 
     public void run(){
         try{
-            InputStream input = socket.getInputStream();
-            in = new BufferedReader(new InputStreamReader(input));
-
-            //Wysylanie do socketa
-            OutputStream output = socket.getOutputStream();
-            out = new PrintWriter(output, true);
-
-            String line;
-            line = in.readLine();
-            System.out.println(line);
-            out.println("Wiadomosc od serwera");
+            PrintStream output = new PrintStream(socket.getOutputStream());
+            BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            output.println("Wiadomosc od serwera");
+            output.flush();
+            String line = input.readLine();
             while(!line.equals("bye")){
+                System.out.println(line);
+
+                line = input.readLine();
 
             }
             socket.close();
