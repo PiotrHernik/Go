@@ -6,14 +6,19 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class Server {
-    public static void main(String[] args){
+    Board board;
 
+    public static void main(String[] args) {
+        new Server().startServer();
+    }
+
+    public void startServer() {
         new Thread(() -> {
             Scanner scanner = new Scanner(System.in);
 
-            while(true) {
+            while (true) {
                 String bye = scanner.nextLine();
-                if(bye.equals("bye")){
+                if (bye.equals("bye")) {
                     System.exit(0);
                 }
             }
@@ -27,11 +32,8 @@ public class Server {
                 Socket socket = serverSocket.accept();
                 System.out.println("New client connected");
                 clientCount++;
-                new GameHandler(socket).start();
-
-
+                new GameHandler(socket, board).start();
             }
-
         } catch (IOException ex) {
             System.out.println("Server exception: " + ex.getMessage());
             ex.printStackTrace();
