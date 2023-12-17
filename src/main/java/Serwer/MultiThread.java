@@ -10,6 +10,8 @@ import java.net.Socket;
 import java.nio.Buffer;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MultiThread extends Thread{
     private Socket socket;
@@ -26,13 +28,17 @@ public class MultiThread extends Thread{
             BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             output.println("Wiadomosc od serwera");
             output.flush();
-            String line = input.readLine();
-            while(!line.equals("bye")){
-                System.out.println(line);
 
+            String line;
+            while(true){
+                //odebranie wiadomości od klienta
                 line = input.readLine();
+                System.out.println(line);
+                output.println("Chyba coś dostałem");
+                if(line.equals("bye")) break;
 
             }
+
             socket.close();
         }
         catch(IOException e){

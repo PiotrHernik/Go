@@ -1,22 +1,24 @@
 package Serwer;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Server {
     Board board;
+    //Lista w której będą przechowywane odniesienia do klientów, żeby móc wysłać wiadomość do wszystkich
+    ArrayList<PrintStream> arrayPrint;
 
     public static void main(String[] args) {
         new Server().startServer();
     }
 
     public void startServer() {
+        arrayPrint = new ArrayList<>();
+
         new Thread(() -> {
             Scanner scanner = new Scanner(System.in);
 
@@ -39,6 +41,10 @@ public class Server {
                     Socket socket = serverSocket.accept();
                     System.out.println("New client connected");
                     clientCount++;
+                    //Dodanie printStremu do danego Clienta do listy
+                    PrintStream printStream = new PrintStream(socket.getOutputStream());
+                    arrayPrint.add(printStream);
+                    //Uruchomienie nowego klienta
                     new MultiThread(socket).start();
 
                 }
@@ -50,11 +56,3 @@ public class Server {
     }
 }
 
-
-//
-
-//
-
-//
- //TODO te klasy to sa z zakutalizowanego clienta, ale coś mi nie szło z połączeniem się z githubem w tamtym projekcie
-//TODO ogólnie przyciski trzeba by dodać pewnie na serwerze, że odczytuje z klienta i na kliencie, że klika
