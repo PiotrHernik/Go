@@ -29,13 +29,13 @@ public class MultiThread extends Thread{
             output.println("Wiadomosc od serwera");
             output.flush();
 
-            String line;
+            Object line;
             while(true){
                 //odebranie wiadomości od klienta
                 line = input.readLine();
                 System.out.println(line);
-                output.println("Chyba coś dostałem");
-                if(line.equals("bye")) break;
+                //output.println("Chyba coś dostałem");
+                if(line.equals("Exit")) break;
 
             }
 
